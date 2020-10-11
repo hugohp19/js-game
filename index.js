@@ -23,10 +23,11 @@ let letterPosition = [];
 function gameStarter(){
     console.log('Chose your Dificulty:')
     let difficulty = readline.question(`type: Medium, Hard, Impossible\n`);
-   switch(difficulty.toLowerCase()){
+    switch(difficulty.toLowerCase()){
         case 'medium':
             // console.log('EASY');
             wordArray = mediumWordsArray[Math.floor(Math.random() * mediumWordsArray.length)];
+            console.log('-----------------------------------------------------')
             console.log(`Medium, really... Well, you have ${maxTries} chances.`);
             console.log(wordArray);
             break;
@@ -46,23 +47,28 @@ function gameStarter(){
             console.log('Please type: Easy, Medium, or Hard');
     }
 
-    return wordArray;
-    
+    placeholder.length = 0;
+    for(let y = 0; y < wordArray.length; y++){
+        placeholder.push('_');
+    };
+    console.log(`\nThe word has ${wordArray.length} letters. \n ${placeholder}`);
+    let userLetter = readline.question(`\nEnter you first letter:  `);
+    hangman(userLetter);
 }
 
-gameStarter();
-for(let y = 0; y < wordArray.length; y++){
-    placeholder.push('_ ');
-};
-console.log(`The word has ${wordArray.length} letters. \n ${placeholder}`);
-let userLetter = readline.question(`Enter you first letter:\n`);
-hangman(userLetter);
+// gameStarter();
+// for(let y = 0; y < wordArray.length; y++){
+//     placeholder.push('_ ');
+// };
+// console.log(`The word has ${wordArray.length} letters. \n ${placeholder}`);
+// let userLetter = readline.question(`Enter you first letter:\n`);
+// hangman(userLetter);
 
 function hangman(letter){
     let lettersGuessed = 0;
     let counter = 0;
     for(let i = 0; i < maxTries; i++){
-        console.log(i + " , " + maxTries);
+        //console.log(i + " , " + maxTries);
         let letterIncluded = findLetter(letter, wordArray);
         if(letterIncluded.length > 0){
             for(let y = 0; y < letterIncluded.length; y++){
@@ -73,27 +79,40 @@ function hangman(letter){
                 // console.log(placeholder);
                 lettersGuessed++;
             }
-            console.log('Wuhuu, You got it');
+            console.log('✅️   Wuhuu, You got it');
             let placeHolderString = placeholder.toString().replace(/,/g, ' ');
             console.log(placeHolderString);
             i--;
         } else {
-            console.log(`The letter: ${letter} is not in the word`);
+            console.log(`❌️   The letter: ${letter} is not in the word`);
             placeHolderString = placeholder.toString().replace(/,/g, ' ');
             console.log(placeHolderString);
             counter++;
         }
 
         if(counter >= maxTries){
-            console.log(`You have reached the maximun number of misses. YOU LOSE!`);
+            console.log(`\n\n💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀`);
+            console.log(`❌️                                                              ❌️`);
+            console.log(`❌️   You have reached the maximun number of misses. YOU LOSE!   ❌️`);
+            console.log(`     The Word was : ${wordArray}`);
+            console.log(`💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀\n`);
         }else if(lettersGuessed === wordArray.length){
-            console.log('*********************************************')
-            console.log('***********    You WIN!!!!!!!!   ************')
-            console.log('*********************************************')
+            console.log('\n\n🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩');
+            console.log('🌟 🌟 🌟 🌟                      🌟 🌟 🌟 🌟');
+            console.log('🌟 🌟 🌟 🌟    You WIN!!!!!!!!   🌟 🌟 🌟 🌟');
+            console.log('🌟 🌟 🌟 🌟                      🌟 🌟 🌟 🌟');
+            console.log('🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩');
             break;
         }else{
-            letter = readline.question(`\nwhat is your next letter>\n`);
+            letter = readline.question(`\nwhat is your next letter:    `);
         }
+    }
+
+    let playAgain = readline.question('Do you want to play again? y/n:   ');
+    if(playAgain.toLowerCase() === 'y'){
+        gameStarter();
+    } else {
+        console.log('\n********* SEE YOU SOON ***********\n');
     }
 }
 
@@ -109,3 +128,5 @@ function findLetter(letter, wordArray){
     //console.log(letterPosition);
     return letterPosition;
 }
+
+gameStarter();
