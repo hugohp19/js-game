@@ -16,7 +16,7 @@ let mediumWordsArray = ['even', 'pizza', 'water', 'sixty', 'angel', 'music', 'fi
 let hardWordsArray = ['abnegation', 'abstruse', 'archetypal', 'bombastic', 'camaraderie', 'circumlocution', 'multifarious', 'pellucid', 'punctilious', 'sanctimonious'];
 let impossibleWordsArray = ['supercalifragilisticexpialidocious', 'pseudopseudohypoparathyroidism', 'antidisestablishmentarianism', 'thyroparathyroidectomized', 'dichlorodifluoromethane', 'incomprehensibilitie'];
 let placeholder= [];
-let wordArray;
+let misteryWord;
 let maxTries = 6;
 let letterPosition = [];
 
@@ -26,50 +26,41 @@ function gameStarter(){
     switch(difficulty.toLowerCase()){
         case 'medium':
             // console.log('EASY');
-            wordArray = mediumWordsArray[Math.floor(Math.random() * mediumWordsArray.length)];
+            misteryWord = mediumWordsArray[Math.floor(Math.random() * mediumWordsArray.length)];
             console.log('-----------------------------------------------------')
             console.log(`Medium, really... Well, you have ${maxTries} chances.`);
-            console.log(wordArray);
+            console.log(misteryWord);
             break;
         case 'hard':
             //console.log('HARD');
-            wordArray = hardWordsArray[Math.floor(Math.random() * hardWordsArray.length)];
+            misteryWord = hardWordsArray[Math.floor(Math.random() * hardWordsArray.length)];
             console.log(`Hard it is. You have ${maxTries} chances.`);
-            //console.log(wordArray);
+            //console.log(misteryWord);
             break;
         case 'impossible':
             //console.log('IMPOSSIBLE');
-            wordArray = impossibleWordsArray[Math.floor(Math.random() * impossibleWordsArray.length)];
+            misteryWord = impossibleWordsArray[Math.floor(Math.random() * impossibleWordsArray.length)];
             console.log(`If it says impossible, why would you... never mind. You still have ${maxTries} chances.`);
-            //console.log(wordArray);
+            //console.log(misteryWord);
             break;
         default:
             console.log('Please type: Easy, Medium, or Hard');
     }
 
     placeholder.length = 0;
-    for(let y = 0; y < wordArray.length; y++){
+    for(let y = 0; y < misteryWord.length; y++){
         placeholder.push('_');
     };
-    console.log(`\nThe word has ${wordArray.length} letters. \n ${placeholder}`);
-    let userLetter = readline.question(`\nEnter you first letter:  `);
+    console.log(`\nThe word has ${misteryWord.length} letters. \n ${placeholder}`);
+    let userLetter = readline.question(`\nEnter you first letter:  `).toLowerCase();
     hangman(userLetter);
 }
-
-// gameStarter();
-// for(let y = 0; y < wordArray.length; y++){
-//     placeholder.push('_ ');
-// };
-// console.log(`The word has ${wordArray.length} letters. \n ${placeholder}`);
-// let userLetter = readline.question(`Enter you first letter:\n`);
-// hangman(userLetter);
 
 function hangman(letter){
     let lettersGuessed = 0;
     let counter = 0;
     for(let i = 0; i < maxTries; i++){
-        //console.log(i + " , " + maxTries);
-        let letterIncluded = findLetter(letter, wordArray);
+        let letterIncluded = findLetter(letter, misteryWord);
         if(letterIncluded.length > 0){
             for(let y = 0; y < letterIncluded.length; y++){
                 // console.log(letterIncluded.length);
@@ -94,17 +85,17 @@ function hangman(letter){
             console.log(`\n\n💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀`);
             console.log(`❌️                                                              ❌️`);
             console.log(`❌️   You have reached the maximun number of misses. YOU LOSE!   ❌️`);
-            console.log(`     The Word was : ${wordArray}`);
-            console.log(`💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀\n`);
-        }else if(lettersGuessed === wordArray.length){
+            console.log(`     👀 👀 👀 The Word was: ${misteryWord}`);
+            console.log(`💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀\n\n`);
+        }else if(lettersGuessed === misteryWord.length){
             console.log('\n\n🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩');
             console.log('🌟 🌟 🌟 🌟                      🌟 🌟 🌟 🌟');
             console.log('🌟 🌟 🌟 🌟    You WIN!!!!!!!!   🌟 🌟 🌟 🌟');
             console.log('🌟 🌟 🌟 🌟                      🌟 🌟 🌟 🌟');
-            console.log('🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩');
+            console.log('🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩 🤩\n\n');
             break;
         }else{
-            letter = readline.question(`\nwhat is your next letter:    `);
+            letter = readline.question(`\nwhat is your next letter:    `).toLowerCase();
         }
     }
 
@@ -117,11 +108,11 @@ function hangman(letter){
 }
 
 
-function findLetter(letter, wordArray){
+function findLetter(letter, misteryWord){
     letterPosition.length = 0;
     //console.log(letterPosition)
-    for(let i = 0; i < wordArray.length; i++){
-        if(letter === wordArray[i]){
+    for(let i = 0; i < misteryWord.length; i++){
+        if(letter === misteryWord[i]){
             letterPosition.push(i);
         }
     }
