@@ -1,16 +1,16 @@
 let readline = require('readline-sync');
 
-console.log('--------------------------------------');
-console.log('**************************************');
-console.log('***                                ***');
-console.log('**                                  **');
-console.log('*                                    *');
-console.log('*     Welcome to Games "R" Us        *');
-console.log('*                                    *');
-console.log('**                                  **');
-console.log('***                                ***');
-console.log('**************************************');
-console.log('--------------------------------------\n\n\n');
+console.log('-------------------------------------------------');
+console.log('*************************************************');
+console.log('***                                           ***');
+console.log('**                                  ______     **');
+console.log('*     Welcome to Games "R" Us       |     |     *');
+console.log('*              Hangman              O     |     *');
+console.log('*                                  /|\\    |     *');
+console.log('**                                  |     |    **');
+console.log('***                                / \\  __|    ***');
+console.log('*************************************************');
+console.log('-------------------------------------------------\n\n\n');
 
 let mediumWordsArray = ['even', 'pizza', 'water', 'sixty', 'angel', 'music', 'fifty', 'party', 'woman', 'sugar', 'amber'];
 let hardWordsArray = ['abnegation', 'abstruse', 'archetypal', 'bombastic', 'camaraderie', 'circumlocution', 'multifarious', 'pellucid', 'punctilious', 'sanctimonious'];
@@ -23,6 +23,7 @@ let letterPosition = [];
 function gameStarter(){
     console.log('Chose your Dificulty:')
     let difficulty = readline.question(`type: Medium, Hard, Impossible\n`);
+    console.clear();
     switch(difficulty.toLowerCase()){
         case 'medium':
             // console.log('EASY');
@@ -59,29 +60,41 @@ function gameStarter(){
 function hangman(letter){
     let lettersGuessed = 0;
     let counter = 0;
+    let letterArray = [];
     for(let i = 0; i < maxTries; i++){
-        let letterIncluded = findLetter(letter, misteryWord);
-        if(letterIncluded.length > 0){
-            for(let y = 0; y < letterIncluded.length; y++){
-                // console.log(letterIncluded.length);
-                // console.log(letterIncluded);
-                // console.log(letter);
-                placeholder[letterIncluded[y]] = letter;
-                // console.log(placeholder);
-                lettersGuessed++;
-            }
-            console.log('✅️   Wuhuu, You got it');
-            let placeHolderString = placeholder.toString().replace(/,/g, ' ');
-            console.log(placeHolderString);
+        if(letterArray.includes(letter)){
+            console.log(`You already typed that letter. Letters typed ( ${letterArray})\n`);
             i--;
         } else {
-            console.log(`❌️   The letter: ${letter} is not in the word`);
-            placeHolderString = placeholder.toString().replace(/,/g, ' ');
-            console.log(placeHolderString);
-            counter++;
+            let letterIncluded = findLetter(letter, misteryWord);
+            if(letterIncluded.length > 0){
+                for(let y = 0; y < letterIncluded.length; y++){
+                    // console.log(letterIncluded.length);
+                    // console.log(letterIncluded);
+                    // console.log(letter);
+                    placeholder[letterIncluded[y]] = letter;
+                    // console.log(placeholder);
+                    lettersGuessed++;
+                }
+                letterArray.push(letter);
+                console.clear();
+                console.log('✅️   Wuhuu, You got it');
+                let placeHolderString = placeholder.toString().replace(/,/g, ' ');
+                console.log(placeHolderString);
+                i--;
+            } else {
+                console.clear();
+                letterArray.push(letter);
+                console.log(`❌️   The letter: ${letter} is not in the word`);
+                placeHolderString = placeholder.toString().replace(/,/g, ' ');
+                console.log(placeHolderString);
+                counter++;
+                visualHangman(counter);
+            }
         }
 
         if(counter >= maxTries){
+            console.clear();
             console.log(`\n\n💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀`);
             console.log(`❌️                                                              ❌️`);
             console.log(`❌️   You have reached the maximun number of misses. YOU LOSE!   ❌️`);
@@ -101,6 +114,7 @@ function hangman(letter){
 
     let playAgain = readline.question('Do you want to play again? y/n:   ');
     if(playAgain.toLowerCase() === 'y'){
+        console.clear();
         gameStarter();
     } else {
         console.log('\n********* SEE YOU SOON ***********\n');
@@ -118,6 +132,90 @@ function findLetter(letter, misteryWord){
     }
     //console.log(letterPosition);
     return letterPosition;
+}
+
+
+function visualHangman(number){
+    switch(number){
+        case 1:
+            console.log('\n-------------------------');
+            console.log('*************************');
+            console.log('***                   ***');
+            console.log('**          ______     **');
+            console.log('*           |     |     *');
+            console.log('*           O     |     *');
+            console.log('*                 |     *');
+            console.log('**                |    **');
+            console.log('***             __|   ***');
+            console.log('*************************');
+            console.log('-------------------------\n\n\n');
+            break;
+        case 2:
+            console.log('\n-------------------------');
+            console.log('*************************');
+            console.log('***                   ***');
+            console.log('**          ______     **');
+            console.log('*           |     |     *');
+            console.log('*           O     |     *');
+            console.log('*           |     |     *');
+            console.log('**          |     |    **');
+            console.log('***             __|   ***');
+            console.log('*************************');
+            console.log('-------------------------\n\n\n');
+            break;
+        case 3:
+            console.log('\n-------------------------');
+            console.log('*************************');
+            console.log('***                   ***');
+            console.log('**          ______     **');
+            console.log('*           |     |     *');
+            console.log('*           O     |     *');
+            console.log('*          /|     |     *');
+            console.log('**          |     |    **');
+            console.log('***             __|   ***');
+            console.log('*************************');
+            console.log('-------------------------\n\n\n');
+            break;
+        case 4:
+            console.log('\n-------------------------');
+            console.log('*************************');
+            console.log('***                   ***');
+            console.log('**          ______     **');
+            console.log('*           |     |     *');
+            console.log('*           O     |     *');
+            console.log('*          /|\\    |     *');
+            console.log('**          |     |    **');
+            console.log('***             __|   ***');
+            console.log('*************************');
+            console.log('-------------------------\n\n\n');
+            break;
+        case 5:
+            console.log('\n-------------------------');
+            console.log('*************************');
+            console.log('***                   ***');
+            console.log('**          ______     **');
+            console.log('*           |     |     *');
+            console.log('*           O     |     *');
+            console.log('*          /|\\    |     *');
+            console.log('**          |     |    **');
+            console.log('***        /    __|   ***');
+            console.log('*************************');
+            console.log('-------------------------\n\n\n');
+            break;
+        case 6:
+            console.log('\n-------------------------');
+            console.log('*************************');
+            console.log('***                   ***');
+            console.log('**          ______     **');
+            console.log('*           |     |     *');
+            console.log('*           O     |     *');
+            console.log('*          /|\\    |     *');
+            console.log('**          |     |    **');
+            console.log('***        / \\  __|   ***');
+            console.log('*************************');
+            console.log('-------------------------');
+            break;
+    }
 }
 
 gameStarter();
