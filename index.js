@@ -39,20 +39,17 @@ function gameStarter(){
     console.clear();
     switch(difficulty.toLowerCase()){
         case 'medium':
-            // console.log('EASY');
             misteryWord = mediumWordsArray[Math.floor(Math.random() * mediumWordsArray.length)];
             console.log('-----------------------------------------------------')
             console.log(`Medium, really... Well, you have ${maxTries} chances.`);
-            console.log(misteryWord);
+            //console.log(misteryWord);
             break;
         case 'hard':
-            //console.log('HARD');
             misteryWord = hardWordsArray[Math.floor(Math.random() * hardWordsArray.length)];
             console.log(`Hard it is. You have ${maxTries} chances.`);
             //console.log(misteryWord);
             break;
         case 'impossible':
-            //console.log('IMPOSSIBLE');
             misteryWord = impossibleWordsArray[Math.floor(Math.random() * impossibleWordsArray.length)];
             console.log(`If it says impossible, why would you... never mind. You still have ${maxTries} chances.`);
             //console.log(misteryWord);
@@ -76,16 +73,19 @@ function hangman(letter){
     let letterArray = [];
     let playAgain;
 
-    if(letter.length > 1 && letter === misteryWord){
-        youWin();
-        playAgain = readline.question('Do you want to play again? y/n:   ');
-        playAgainFunc(playAgain);
-    }else if(letter.length > 1){
-        yourLose();
-        playAgain = readline.question('Do you want to play again? y/n:   ');
-        playAgainFunc(playAgain);
-    }else {
-        for(let i = 0; i < maxTries; i++){
+    
+    for(let i = 0; i < maxTries; i++){
+        if(letter.length > 1 && letter === misteryWord){
+            youWin();
+            playAgain = readline.question('Do you want to play again? y/n:   ');
+            playAgainFunc(playAgain);
+            return;
+        }else if(letter.length > 1){
+            yourLose();
+            playAgain = readline.question('Do you want to play again? y/n:   ');
+            playAgainFunc(playAgain);
+            return;
+        }else {
             if(letterArray.includes(letter)){
                 console.log(`You already typed that letter. Letters typed ( ${letterArray})\n`);
                 i--;
@@ -98,63 +98,63 @@ function hangman(letter){
                     }
                     letterArray.push(letter);
                     console.clear();
-                    console.log('✅️   Wuhuu, You got it');
+                    visualHangman(counter);
+                    console.log('✅️   Wuhuu, You got it!');
                     let placeHolderString = placeholder.toString().replace(/,/g, ' ');
                     console.log(placeHolderString);
                     i--;
                 } else {
                     console.clear();
                     letterArray.push(letter);
+                    counter++;
+                    visualHangman(counter);
                     console.log(`❌️   The letter: ${letter} is not in the word`);
                     placeHolderString = placeholder.toString().replace(/,/g, ' ');
                     console.log(placeHolderString);
-                    counter++;
-                    visualHangman(counter);
                 }
             }
 
             if(counter >= maxTries){
                 yourLose();
+                playAgain = readline.question('Do you want to play again? y/n:   ');
+                playAgainFunc(playAgain);
                 break;
             }else if(lettersGuessed === misteryWord.length){
                 youWin();
+                playAgain = readline.question('Do you want to play again? y/n:   ');
+                playAgainFunc(playAgain);
                 break;
             }else{
                 letter = readline.question(`\nwhat is your next letter:    `).toLowerCase();
             }
+
+
         }
-
-        playAgain = readline.question('Do you want to play again? y/n:   ');
-        playAgainFunc(playAgain);
-
     }
-
-
-
 }
 
 
 function findLetter(letter, misteryWord){
     letterPosition.length = 0;
-    //console.log(letterPosition)
     for(let i = 0; i < misteryWord.length; i++){
         if(letter === misteryWord[i]){
             letterPosition.push(i);
         }
     }
-    //console.log(letterPosition);
     return letterPosition;
 }
 
 function playAgainFunc(yesOrNo){
-    while(yesOrNo.toLowerCase() !== 'y' && yesOrNo.toLowerCase() !== 'n'){
+    while((yesOrNo.toLowerCase() !== 'y') && (yesOrNo.toLowerCase() !== 'n')){
         yesOrNo = readline.question('Do you want to play again? y/n:   ');
     }
 
     if(yesOrNo.toLowerCase() === 'y'){
         console.clear();
+        console.log(yesOrNo);
         gameStarter();
     } else {
+        console.log(yesOrNo);
         console.log('\n********* SEE YOU SOON ***********\n');
     }
 }
